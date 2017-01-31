@@ -1,23 +1,12 @@
-import json
 import os
 
 import gspread
 import numpy as np
-from oauth2client.service_account import ServiceAccountCredentials
 from slackbot.bot import listen_to
 
-GOOGLE_CLIENT = os.environ.get('GOOGLE_CLIENT', None)
+from .utils import get_credentials
+
 RESTAURANT_SHEET = os.environ.get('RESTAURANT_SHEET', None)
-
-
-def get_credentials():
-    scope = ['https://spreadsheets.google.com/feeds']
-    if GOOGLE_CLIENT is not None:
-        return ServiceAccountCredentials.from_json_keyfile_dict(json.loads(
-            GOOGLE_CLIENT), scope)
-    
-    return ServiceAccountCredentials.from_json_keyfile_name(
-        'google_client.json', scope)
 
 
 def get_sheet():
