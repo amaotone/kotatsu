@@ -30,4 +30,4 @@ def anv():
 
 slack = Slacker(slackbot_settings.API_TOKEN)
 message = anv()
-slack.chat.post_message('try', message, as_user=True)
+slack.chat.post_message('#general', message, as_user=True)
