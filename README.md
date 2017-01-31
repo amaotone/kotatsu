@@ -1,14 +1,12 @@
+[![Heroku](http://heroku-badge.herokuapp.com/?app=kotatsu&style=flat&svg=1)]
+
 <img src="https://raw.githubusercontent.com/amaotone/kotatsu/img/icon.png" width="200">
 
 # こたつちゃん
-herokuにデプロイして動かしているslack botです。
-
-## 依存関係
-- python 3.5.2
-- slackbot 0.4.1 `pip install slackbot`
+herokuにデプロイして動かしているslack botです
 
 ## 機能追加
-`kotatsu/`以下にプラグインファイルを作ってください。
+`kotatsu/`以下にプラグインファイルを作ってPull Requestください
 
 __動作確認方法__
 
