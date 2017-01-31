@@ -5,7 +5,8 @@ from slackbot.bot import listen_to
 def rps(message):
     message.send('おつかれ:blush:')
 
-@listen_to("1+1")
-@listen_to("いちたすいち")
-def mssp(message):
-    message.send("みそすーぷ")
+    
+@listen_to('1\+1')
+@listen_to('いちたすいち')
+def msp(message):
+    message.send(':miso:みそスープ')
