@@ -1,4 +1,6 @@
+httplib2
 numpy
 slackbot
 oauth2client
 gspread
+google-api-python-client
