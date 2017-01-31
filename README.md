@@ -1,5 +1,3 @@
-[![Heroku](http://heroku-badge.herokuapp.com/?app=kotatsu&style=flat&svg=1)]
-
 <img src="https://raw.githubusercontent.com/amaotone/kotatsu/img/icon.png" width="200">
 
 # こたつちゃん
