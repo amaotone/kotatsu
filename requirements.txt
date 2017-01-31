@@ -1,1 +1,3 @@
 slackbot
+oauth2client
+gspread
