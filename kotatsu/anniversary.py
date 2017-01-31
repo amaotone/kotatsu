@@ -20,12 +20,15 @@ def anv():
     today = datetime.date.today()
     (yr, mt) = dif([today.year, today.month], [ANV_Y, ANV_M])
     dy = today.day - ANV_D
+    message = ""
 
     if dy == 0:
         if yr == 0 and mt == (3 or 6):
-            return "今日は付き合い始めてから{}ヶ月です!".format(mt)
+            message = "今日は付き合い始めてから{}ヶ月です!".format(mt)
         elif mt == 0:
-            return "今日は付き合い始めてから{}年です!".format(yr)
+            message = "今日は付き合い始めてから{}年です!".format(yr)
+
+    return message
 
 
 slack = Slacker(slackbot_settings.API_TOKEN)
