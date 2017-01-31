@@ -4,7 +4,7 @@ import os
 import gspread
 import numpy as np
 from oauth2client.service_account import ServiceAccountCredentials
-from slackbot.bot import listen_to, respond_to
+from slackbot.bot import listen_to
 
 GOOGLE_CLIENT = os.environ.get('GOOGLE_CLIENT', None)
 RESTAURANT_SHEET = os.environ.get('RESTAURANT_SHEET', None)
@@ -28,18 +28,24 @@ def get_sheet():
     return sheet
 
 
-def choose():
+@listen_to(r'^(?:ごはん|ご飯)$')
+def show(message):
     sheet = get_sheet()
-    records = np.array(sheet.get_all_values())
-    names = records[:, 0]
-    weights = records[:, 1].astype(np.float)
+    places = np.array(sheet.get_all_values())
+    names = places[:, 0]
+    weights = places[:, 1].astype(np.float)
     p = weights / weights.sum()
-    return np.random.choice(names, p=p)
+    message.send('{}はどうですか？'.format(np.random.choice(names, p=p)))
+    return
 
 
-@respond_to('ごはん')
-@respond_to('ご飯')
-@listen_to('ごはん')
-@listen_to('ご飯')
-def restaurant(message):
-    message.send('{}はどうですか？'.format(choose()))
+@listen_to(r'^(?:ごはん|ご飯)追加[\s　]*(.*)$')
+def add(message, place):
+    sheet = get_sheet()
+    if place in sheet.col_values(1):
+        message.send('{}は既にリストに入っています'.format(place))
+        return
+    
+    sheet.insert_row([place, 3])
+    message.send('{}を追加しました(優先度3)'.format(place))
+    return
