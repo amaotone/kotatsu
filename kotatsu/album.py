@@ -1,10 +1,12 @@
+import json
+import os
+
 import httplib2
 import numpy as np
 from apiclient import discovery
 from slackbot.bot import listen_to
-import os
+
 from .utils import get_credentials
-import json
 
 alb = os.environ.get('ALB', None)
 
