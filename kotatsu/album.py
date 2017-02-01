@@ -13,7 +13,7 @@ def photo(message):
     credentials = get_credentials()
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('drive', 'v3', http=http)
-    send_user = message.channel._client.users[message.body['user']][u'name']
+    send_user = message.channel._client.users[message.body['user']]['name']
 
     results = service.files().list(spaces='drive', pageSize=1000).execute().get(
         'files', [])
