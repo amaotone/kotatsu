@@ -3,12 +3,14 @@
 # こたつちゃん
 herokuにデプロイして動かしているslack botです
 
-## 機能追加
-`kotatsu/`以下にプラグインファイルを作ってPull Requestください
+## 環境
 
-__動作確認方法__
+- Python3 + [slackbot](https://github.com/lins05/slackbot)
+- Heroku
 
-1. [slack botを作成](https://slack.com/apps/new/A0F7YS25R-bots)
-2. 作成したbotのAPI_TOKENをコピー
-3. `$ export SLACK_API_TOKEN=【コピーしたAPI_TOKEN】`
-4. `$ python run.py`
+## 動作確認
+
+```bash
+$ heroku config:pull
+$ python run.py
+```
