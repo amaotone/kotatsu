@@ -6,13 +6,11 @@ from slackbot.bot import listen_to
 
 from .utils import get_credentials
 
-RESTAURANT_SHEET = os.environ.get('RESTAURANT_SHEET', None)
-
 
 def get_sheet():
     credentials = get_credentials()
     client = gspread.authorize(credentials)
-    file = client.open_by_key(RESTAURANT_SHEET)
+    file = client.open_by_key(os.environ['RESTAURANT_SHEET_ID'])
     sheet = file.sheet1
     return sheet
 
