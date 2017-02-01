@@ -4,3 +4,4 @@ slackbot
 oauth2client
 gspread
 google-api-python-client
+python-dotenv
