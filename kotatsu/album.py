@@ -10,8 +10,8 @@ from .utils import get_credentials
 
 alb = os.environ.get('ALB', None)
 
-if alb:
-    json.loads(alb)
+if alb is not None:
+    alb = json.loads(alb)
 else:
     with open("user_config.json") as file:
         alb = json.load(file)
