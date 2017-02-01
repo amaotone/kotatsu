@@ -5,15 +5,15 @@ from slackbot.bot import listen_to
 import os
 from .utils import get_credentials
 import json
-from ast import literal_eval
 
 alb = os.environ.get('ALB', None)
 
 if alb:
-    literal_eval(alb)
+    json.loads(alb)
 else:
     with open("user_config.json") as file:
-        alb=json.load(file)
+        alb = json.load(file)
+
 
 @listen_to('^(?:しゃしん|写真)$')
 def photo(message):
