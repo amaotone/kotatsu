@@ -5,3 +5,6 @@ oauth2client
 gspread
 google-api-python-client
 python-dotenv
+requests
+beautifulsoup4
+bottlenose
