@@ -19,7 +19,7 @@ def fetch_book_data(word):
     
     return [{
         'title': res.title.text,
-        'title_link': 'https://www.amazon.co.jp/dp/{}'.format(res.asin.text),
+        'title_link': res.detailpageurl.text,
         'text': res.author.text,
         'image_url': res.largeimage.url.text
     }]
