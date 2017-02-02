@@ -8,3 +8,4 @@ python-dotenv
 requests
 beautifulsoup4
 bottlenose
+lxml
