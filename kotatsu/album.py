@@ -1,5 +1,6 @@
 import json
 import os
+import unicodedata
 
 import httplib2
 import numpy as np
@@ -9,8 +10,13 @@ from slackbot.bot import listen_to
 from .utils import get_credentials
 
 
-@listen_to('^(?:しゃしん|写真)$')
-def photo(message):
+@listen_to(r'^(?:しゃしん|写真)[\s　]*(\d*)?')
+def photo(message, number):
+    if not number:
+        number = 1
+    else:
+        number = int(unicodedata.normalize('NFKC', number))
+    
     credentials = get_credentials()
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('drive', 'v3', http=http)
@@ -22,8 +28,10 @@ def photo(message):
     files = response.get('files', [])
     photos = [f['id'] for f in files if
               ('.jpg' in f['name']) and (f['id'][2] != user_album[send_user])]
-    photo_id = np.random.choice(photos)
+    photo_ids = np.random.choice(photos, size=number)
     
-    url = 'http://drive.google.com/uc?export=view&id={}'.format(photo_id)
+    url = 'http://drive.google.com/uc?export=view&id={}'
+    attachments = [{'text': '', 'image_url': url.format(pid)} for pid in
+                   photo_ids]
     
-    message.send(url)
+    message.send_webapi('', json.dumps(attachments))
