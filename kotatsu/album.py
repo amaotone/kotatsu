@@ -10,7 +10,7 @@ from slackbot.bot import listen_to
 from .utils import get_credentials
 
 
-@listen_to(r'^(?:しゃしん|写真|photo)[\s　]*(\d*)?')
+@listen_to(r'^(?:しゃしん|写真|photo)(?:$|[\s　]+(\d*)?)')
 def photo(message, number):
     if not number:
         number = 1
