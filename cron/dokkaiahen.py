@@ -11,22 +11,14 @@ from slackbot_settings import API_TOKEN
 
 def dokkaiahen():
     base_url = 'http://dka-hero.com/'
-    filename = 'dokkaiahen.txt'
-    
     page = pq(url=base_url + 't_c.html', encoding='shift_jis')
     link = page('a:first')
-    try:
-        with open(filename, 'r') as f:
-            old = f.read()
-    except FileNotFoundError:
-        old = ''
     
+    old = os.environ.get('HORIMIYA', '')
     new = link.text()
     
     if new != old:
-        with open(filename, 'w') as f:
-            f.write(new)
-        
+        os.environ['HORIMIYA'] = new
         return {'title': new, 'link': base_url + link.attr('href')}
     
     else:
