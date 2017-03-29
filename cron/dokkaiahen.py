@@ -1,32 +1,41 @@
-from selenium import webdriver
+import os
+import sys
+
+from pyquery import PyQuery as pq
 from slacker import Slacker
+
+sys.path.append(os.path.abspath(os.curdir))
+
 from slackbot_settings import API_TOKEN
-import os.path
+
 
 def dokkaiahen():
-    url='http://dka-hero.com/top.html'
-    driver=webdriver.PhantomJS()
-    print(driver.title)
-    driver.get(url)
-
-    frame = driver.find_element_by_name('contents')
-    driver.switch_to_frame(frame)
-    newtitle = driver.find_element_by_xpath('//table/tbody/tr[3]')
-
-
-    file=open('change_record.txt','w+')
-
-    if newtitle.text != file.read():
-        file.write(newtitle.text)
-        file.close()
-
-        return '読解アヘン{}が更新されました！'.format(newtitle.text)
+    base_url = 'http://dka-hero.com/'
+    filename = 'dokkaiahen.txt'
+    
+    page = pq(url=base_url + 't_c.html', encoding='shift_jis')
+    link = page('a:first')
+    try:
+        with open(filename, 'r') as f:
+            old = f.read()
+    except FileNotFoundError:
+        old = ''
+    
+    new = link.text()
+    
+    if new != old:
+        with open(filename, 'w') as f:
+            f.write(new)
+        
+        return {'title': new, 'link': base_url + link.attr('href')}
+    
     else:
-        pass
+        print('There is no update on {}'.format(base_url))
 
 
-if __name__=='__main__':
-    slack=Slacker(API_TOKEN)
-    notice=dokkaiahen()
-    if notice:
-        slack.chat.post_message('#general',notice,as_user=True)
+if __name__ == '__main__':
+    slack = Slacker(API_TOKEN)
+    res = dokkaiahen()
+    if res:
+        message = '読解アヘンに更新があります\n{title}\n{link}'.format(**res)
+        slack.chat.post_message('#general', message, as_user=True)
