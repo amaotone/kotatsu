@@ -30,4 +30,4 @@ if __name__ == '__main__':
     res = dokkaiahen()
     if res:
         message = '読解アヘンに更新があります\n{title}\n{link}'.format(**res)
-        slack.chat.post_message('#kotatsu_test', message, as_user=True)
+        slack.chat.post_message('#general', message, as_user=True)
