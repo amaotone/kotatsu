@@ -1,5 +1,6 @@
 import os
 import sys
+import json
 
 from pyquery import PyQuery as pq
 from slacker import Slacker
@@ -14,11 +15,15 @@ def dokkaiahen():
     page = pq(url=base_url + 't_c.html', encoding='shift_jis')
     link = page('a:first')
     
-    old = os.environ.get('HORIMIYA', '')
+    with open('horimiya.json','r') as f:
+        horimiya = json.load(f)
+        old = horimiya['title']
     new = link.text()
     
     if new != old:
-        os.environ['HORIMIYA'] = new
+        with open('horimiya.json','w') as f:
+            horimiya['title'] = new
+            json.dump(horimiya,f)
         return {'title': new, 'link': base_url + link.attr('href')}
     
     else:
@@ -30,4 +35,4 @@ if __name__ == '__main__':
     res = dokkaiahen()
     if res:
         message = '読解アヘンに更新があります\n{title}\n{link}'.format(**res)
-        slack.chat.post_message('#general', message, as_user=True)
+        slack.chat.post_message('#try', message, as_user=True)
