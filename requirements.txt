@@ -11,3 +11,4 @@ bottlenose
 lxml
 pyquery
 urllib
+psycopg2
