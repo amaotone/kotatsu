@@ -10,3 +10,5 @@ beautifulsoup4
 bottlenose
 lxml
 pyquery
+urllib
+psycopg2

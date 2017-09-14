@@ -1,5 +1,7 @@
 import os
 import sys
+import psycopg2
+import urllib.parse as urlparse
 
 from pyquery import PyQuery as pq
 from slacker import Slacker
@@ -13,21 +15,36 @@ def dokkaiahen():
     base_url = 'http://dka-hero.com/'
     page = pq(url=base_url + 't_c.html', encoding='shift_jis')
     link = page('a:first')
+
+    data_url = urlparse.urlparse(os.environ['DATABASE_URL'])
+    conn = psycopg2.connect(
+        dbname = data_url.path[1:],
+        user = data_url.username,
+        password = data_url.password,
+        host = data_url.hostname,
+        port = data_url.port
+    )
+
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM horimiya")
+    old = cursor.fetchone()[0]
     
-    old = os.environ.get('HORIMIYA', '')
     new = link.text()
-    
-    if new != old:
-        os.environ['HORIMIYA'] = new
+
+    if ascii(new)[1:-1] != old:
+        cursor.execute("UPDATE horimiya SET title=\'" + new + "\'")
         return {'title': new, 'link': base_url + link.attr('href')}
     
     else:
         print('There is no update on {}'.format(base_url))
 
+    conn.commit()
+    cursor.close()
+    conn.close()
 
 if __name__ == '__main__':
     slack = Slacker(API_TOKEN)
     res = dokkaiahen()
     if res:
         message = '読解アヘンに更新があります\n{title}\n{link}'.format(**res)
-        slack.chat.post_message('#general', message, as_user=True)
+        slack.chat.post_message('#try', message, as_user=True)
