@@ -30,9 +30,9 @@ def dokkaiahen():
     old = cursor.fetchone()[0]
     
     newtext = link.text()
-    new = ascii(newtext)[1:-1]
+    new = ascii(newtext).strip("'")
 
-    if repr(new)[1:-1] != old:
+    if repr(new).strip("'") != old:
         cursor.execute("UPDATE horimiya SET title = " + repr(new))
         li = {'title': newtext, 'link': base_url + link.attr('href')}
             
