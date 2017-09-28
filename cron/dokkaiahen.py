@@ -29,18 +29,22 @@ def dokkaiahen():
     cursor.execute("SELECT * FROM horimiya")
     old = cursor.fetchone()[0]
     
-    new = link.text()
+    newtext = link.text()
+    new = ascii(newtext).strip("'")
 
-    if ascii(new)[1:-1] != old:
-        cursor.execute("UPDATE horimiya SET title=\'" + new + "\'")
-        return {'title': new, 'link': base_url + link.attr('href')}
-    
+    if repr(new).strip("'") != old:
+        cursor.execute("UPDATE horimiya SET title = " + repr(new))
+        li = {'title': newtext, 'link': base_url + link.attr('href')}
+            
     else:
         print('There is no update on {}'.format(base_url))
+        li = {}
 
     conn.commit()
     cursor.close()
     conn.close()
+
+    return li
 
 if __name__ == '__main__':
     slack = Slacker(API_TOKEN)
