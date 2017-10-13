@@ -46,7 +46,7 @@ def dokkaiahen():
     
     elif repr(new2).strip("'") != old2[:len(repr(new2).strip("'"))]:
         cursor.execute("UPDATE horimiya2 SET title = " + repr(new2))
-        li = {'title': newtext2, 'link': base_url + link.attr('href')}
+        li = {'title': newtext2, 'link': base_url + link2.attr('href')}
             
     else:
         print('There is no update on {}'.format(base_url))
