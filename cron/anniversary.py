@@ -27,10 +27,12 @@ def anniversary():
     dy = today.day - ANV_D
     
     if dy == 0:
-        if yr == 0 and mt == (3 or 6):
+        if yr == 0:
             return "今日は付き合い始めてから{}ヶ月です!".format(mt)
         elif mt == 0:
             return "今日は付き合い始めてから{}年です!".format(yr)
+        else:
+            return "今日は付き合い始めてから{}年{}ヶ月です!".format(yr,mt)
     
     return ""
 
