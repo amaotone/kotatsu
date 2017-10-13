@@ -15,6 +15,8 @@ def dokkaiahen():
     base_url = 'http://dka-hero.com/'
     page = pq(url=base_url + 't_c.html', encoding='shift_jis')
     link = page('a:first')
+    page2 = pq(url=base_url + 'mat/new.html', encoding='shift_jis')
+    link2 = page2('td:first')
 
     data_url = urlparse.urlparse(os.environ['DATABASE_URL'])
     conn = psycopg2.connect(
@@ -26,15 +28,25 @@ def dokkaiahen():
     )
 
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM horimiya")
+    cursor.execute("SELECT * FROM horimiya") 
     old = cursor.fetchone()[0]
-    
+    cursor.execute("SELECT * FROM horimiya2") 
+    old2 = cursor.fetchone()[0]
+
     newtext = link.text()
     new = ascii(newtext).strip("'")
+    newtextlist2 = link2.text().split()[0:3]
+    newtext2 = " ".join(newtextlist2)
+    new2 = ascii(newtext2).strip("'")
+    
 
     if repr(new).strip("'") != old:
         cursor.execute("UPDATE horimiya SET title = " + repr(new))
         li = {'title': newtext, 'link': base_url + link.attr('href')}
+    
+    elif repr(new2).strip("'") != old2[:len(repr(new2).strip("'"))]:
+        cursor.execute("UPDATE horimiya2 SET title = " + repr(new2))
+        li = {'title': newtext2, 'link': base_url}
             
     else:
         print('There is no update on {}'.format(base_url))
