@@ -1,7 +1,6 @@
 import os
 import psycopg2
 import urllib.parse as urlparse
-from pyquery import PyQuery as pq
 from slackbot.bot import listen_to
 
 
