@@ -3,6 +3,7 @@ import psycopg2
 import urllib.parse as urlparse
 from slackbot.bot import listen_to
 
+RATIO = 0.4
 
 def database():
     data_url = urlparse.urlparse(os.environ['DATABASE_URL'])
@@ -43,7 +44,10 @@ def fetch_val():
 @listen_to(r'^(?:(-?\d*)?)$')
 def add(message, amount):
     now = fetch_val()
-    new = now + int(amount)
+    amount = int(amount)
+    if amount<0:
+        amount = int(amount*(1-RATIO)/RATIO)
+    new = now + amount
     change_val(new)
 
     message.send('追加しました: {} -> {}'.format(now, new))
@@ -63,10 +67,10 @@ def reset(message):
 def out(message):
     now = fetch_val()
 
-    if 250<=int(now*0.4)%500:
-        now = int(now*0.4)-int(now*0.4)%500+500
+    if 250<=int(now*RATIO)%500:
+        now = int(now*RATIO)-int(now*RATIO)%500+500
     else:
-        now = int(now*0.4)-int(now*0.4)%500
+        now = int(now*RATIO)-int(now*RATIO)%500
 
     message.send('支払い金額: {}'.format(now))
 
