@@ -46,7 +46,7 @@ def add(message, amount):
     now = fetch_val()
     amount = int(amount)
     if amount<0:
-        amount = int(amount/RATIO)
+        amount = int(amount*(1-RATIO)/RATIO)
     new = now + amount
     change_val(new)
 
