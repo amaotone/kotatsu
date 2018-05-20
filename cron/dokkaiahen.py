@@ -34,23 +34,17 @@ def dokkaiahen():
     old2 = cursor.fetchone()[0]
 
     newtext = link.text()
-    new = ascii(newtext).strip("'")
+    new = newtext[:4]   # 日付
     newtextlist2 = link2.text().split()[0:3]
     newtext2 = " ".join(newtextlist2)
-    new2 = ascii(newtext2).strip("'")
+    new2 = newtext2[:4]
 
-    if repr(new).strip("'") != old:
-        if len(repr(new)) > 100:
-            cursor.execute("UPDATE horimiya SET title = " + repr(new)[:100] + "'")
-        else:
-            cursor.execute("UPDATE horimiya SET title = " + repr(new))
+    if new != old[:4]:
+        cursor.execute("UPDATE horimiya SET title = " + repr(new))
         li = {'title': newtext, 'link': base_url + link.attr('href')}
     
-    elif repr(new2).strip("'") != old2[:len(repr(new2).strip("'"))]:
-        if len(repr(new2)) > 100:
-            cursor.execute("UPDATE horimiya2 SET title = " + repr(new2)[:100] + "'")
-        else:
-            cursor.execute("UPDATE horimiya2 SET title = " + repr(new2))
+    elif new2 != old2[:4]:
+        cursor.execute("UPDATE horimiya2 SET title = " + repr(new2))
         li = {'title': newtext2, 'link': base_url}
             
     else:
