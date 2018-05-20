@@ -28,9 +28,9 @@ def dokkaiahen():
     )
 
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM horimiya") 
+    cursor.execute("SELECT * FROM horimiya")    # horimiya
     old = cursor.fetchone()[0]
-    cursor.execute("SELECT * FROM horimiya2") 
+    cursor.execute("SELECT * FROM horimiya2")   # tanpen
     old2 = cursor.fetchone()[0]
 
     newtext = link.text()
@@ -38,14 +38,19 @@ def dokkaiahen():
     newtextlist2 = link2.text().split()[0:3]
     newtext2 = " ".join(newtextlist2)
     new2 = ascii(newtext2).strip("'")
-    
 
     if repr(new).strip("'") != old:
-        cursor.execute("UPDATE horimiya SET title = " + repr(new))
+        if len(repr(new)) > 100:
+            cursor.execute("UPDATE horimiya SET title = " + repr(new)[:100] + "'")
+        else:
+            cursor.execute("UPDATE horimiya SET title = " + repr(new))
         li = {'title': newtext, 'link': base_url + link.attr('href')}
     
     elif repr(new2).strip("'") != old2[:len(repr(new2).strip("'"))]:
-        cursor.execute("UPDATE horimiya2 SET title = " + repr(new2))
+        if len(repr(new2)) > 100:
+            cursor.execute("UPDATE horimiya2 SET title = " + repr(new2)[:100] + "'")
+        else:
+            cursor.execute("UPDATE horimiya2 SET title = " + repr(new2))
         li = {'title': newtext2, 'link': base_url}
             
     else:
