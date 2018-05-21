@@ -42,3 +42,6 @@ if __name__ == '__main__':
     message = anniversary()
     if message:
         slack.chat.post_message('#general', message, as_user=True)
+    else:
+        print("today is not anniversary")
+
