@@ -41,7 +41,7 @@ def fetch_val():
 
     return num
 
-@listen_to(r'^(?:(-?\d+)?)$')
+@listen_to(r'^(?:(-?\d*)?)$')
 def add(message, amount):
     now = fetch_val()
     amount = int(amount)
