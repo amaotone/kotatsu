@@ -26,3 +26,8 @@ async def handle_message_events(body, logger):
 @app.on_event("startup")
 async def startup():
     await socket_handler.connect_async()
+
+
+@app.get("/_ah/warmup")
+async def warmup():
+    return {"status": "ok"}
