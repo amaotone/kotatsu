@@ -1,13 +1,6 @@
-from slackbot.bot import listen_to
+async def tired(say):
+    await say("おつかれ:blush:")
 
 
-@listen_to('疲れた')
-@listen_to('つかれた')
-def rps(message):
-    message.send('おつかれ:blush:')
-
-
-@listen_to('1\+1')
-@listen_to('いちたすいち')
-def msp(message):
-    message.send(':miso:みそスープ')
+async def miso_soup(say):
+    await say(":miso:みそスープ")
