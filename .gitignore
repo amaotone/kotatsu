@@ -1,5 +1,7 @@
 .idea
 google_client.json
+secret.yaml
+.env
 
 # Created by .ignore support plugin (hsz.mobi)
 ### Python template
