@@ -1,6 +1,0 @@
-cron:
-- description: anniversary
-  url: /cron/anniversary
-  schedule: 18 of month 10:00
-  timezone: Asia/Tokyo
-  
